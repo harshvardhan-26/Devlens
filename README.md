@@ -1,3 +1,27 @@
+# Devlens 🚀
+
+## Dashboard
+
+![Dashboard](README-assets/dashboard.png)
+
+## GitHub Analysis
+
+![GitHub Analysis](README-assets/github-analysis.png)
+
+## Upload Analysis
+
+![Upload Analysis](README-assets/upload-analysis.png)
+
+## Profile
+
+![Profile](README-assets/profile.png)
+
+
+
+
+
+
+
 # Project Insight AI
 
 Project Insight AI is a production-ready SaaS starter that evaluates whole software projects as products, not just snippets of code. It analyzes GitHub repositories or uploaded project files and returns code quality feedback, architecture guidance, UI/UX notes, an improvement roadmap, and a job-readiness score.
