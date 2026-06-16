@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill Proof System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#f6f8fb;--bg2:#eef4f8;--bg3:#ffffff;--surface:#ffffff;--surface2:#f2f6fa;
+--border:#dbe5ed;--border2:#b9cad7;
+--text:#17202a;--text2:#506174;--text3:#8191a3;
+--accent:#2563eb;--accent2:#0f766e;--accent3:#1d4ed8;
+--green:#16a34a;--red:#dc2626;--amber:#d97706;
+--radius:12px;--radius2:8px;--radius3:20px;
+}
+body.dark-theme{
+--bg:#0a0a0f;--bg2:#111118;--bg3:#16161f;--surface:#1c1c28;--surface2:#22222f;
+--border:#2a2a3d;--border2:#3a3a55;
+--text:#e8e8f0;--text2:#9898b0;--text3:#5a5a78;
+--accent:#7c6aff;--accent2:#a594ff;--accent3:#5040cc;
+--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
+}
+body{background:radial-gradient(circle at 12% 18%,rgba(37,99,235,.22),transparent 28%),radial-gradient(circle at 88% 16%,rgba(217,119,6,.18),transparent 24%),radial-gradient(circle at 50% 82%,rgba(15,118,110,.2),transparent 30%),linear-gradient(180deg,#f8fbff 0,#f2f7f5 48%,#f6f8fb 100%);background-size:140% 140%,130% 130%,150% 150%,100% 100%;color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden;animation:surrealBackdrop 22s ease-in-out infinite}
+body.dark-theme{background:radial-gradient(circle at 12% 18%,rgba(124,106,255,.26),transparent 28%),radial-gradient(circle at 88% 16%,rgba(236,72,153,.14),transparent 24%),radial-gradient(circle at 50% 82%,rgba(6,182,212,.16),transparent 30%),var(--bg)}
+@keyframes surrealBackdrop{0%,100%{background-position:0% 0%,100% 0%,50% 100%,0 0}50%{background-position:18% 8%,82% 18%,44% 82%,0 0}}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(37,99,235,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(15,118,110,.05) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.75),transparent 72%);animation:gridDrift 18s linear infinite}
+body.dark-theme::before{background-image:linear-gradient(rgba(124,106,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(165,148,255,.06) 1px,transparent 1px)}
+@keyframes gridDrift{from{background-position:0 0}to{background-position:42px 42px}}
+.surreal-bg{position:fixed;inset:-18%;z-index:0;pointer-events:none;overflow:hidden;filter:saturate(1.18)}
+.surreal-bg::before{content:'';position:absolute;inset:8% 4%;background:conic-gradient(from 120deg at 50% 45%,rgba(37,99,235,.18),rgba(15,118,110,.15),rgba(217,119,6,.12),rgba(124,106,255,.14),rgba(37,99,235,.18));filter:blur(70px);opacity:.58;border-radius:35% 65% 45% 55%/50% 35% 65% 50%;animation:liquidSky 26s ease-in-out infinite}
+.dream-orb,.dream-ring,.aurora-ribbon{position:absolute;will-change:transform,opacity}
+.dream-orb{width:34vw;height:34vw;min-width:280px;min-height:280px;border-radius:44% 56% 62% 38%/48% 39% 61% 52%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),rgba(37,99,235,.28) 34%,rgba(15,118,110,.13) 62%,transparent 74%);filter:blur(8px);opacity:.7;animation:dreamFloat 18s ease-in-out infinite}
+.dream-orb.one{top:5%;left:-7%}
+.dream-orb.two{right:-8%;top:34%;animation-duration:22s;animation-delay:-7s;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,.72),rgba(217,119,6,.18) 32%,rgba(37,99,235,.12) 60%,transparent 75%)}
+.dream-orb.three{left:36%;bottom:-20%;animation-duration:26s;animation-delay:-12s;background:radial-gradient(circle at 45% 35%,rgba(255,255,255,.68),rgba(15,118,110,.18) 34%,rgba(124,106,255,.11) 62%,transparent 76%)}
+.aurora-ribbon{width:72vw;height:18vw;left:8%;top:14%;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(37,99,235,.26),rgba(15,118,110,.2),rgba(217,119,6,.16),transparent);filter:blur(28px);opacity:.8;transform:rotate(-12deg);animation:auroraFlow 20s ease-in-out infinite}
+.aurora-ribbon.two{top:58%;left:20%;animation-delay:-8s;animation-duration:24s;transform:rotate(16deg);background:linear-gradient(90deg,transparent,rgba(15,118,110,.14),rgba(37,99,235,.16),rgba(124,106,255,.13),transparent)}
+.dream-ring{width:24vw;height:24vw;right:12%;top:7%;border:1px solid rgba(37,99,235,.16);border-radius:39% 61% 48% 52%/56% 42% 58% 44%;box-shadow:inset 0 0 40px rgba(37,99,235,.06);opacity:.62;animation:ringDrift 28s linear infinite}
+.dream-ring.two{left:10%;bottom:12%;top:auto;right:auto;width:18vw;height:18vw;border-color:rgba(15,118,110,.14);animation-duration:34s;animation-direction:reverse}
+body.dark-theme .dream-orb{background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),rgba(124,106,255,.28) 34%,rgba(6,182,212,.12) 62%,transparent 74%);opacity:.5}
+body.dark-theme .dream-orb.two{background:radial-gradient(circle at 40% 35%,rgba(255,255,255,.14),rgba(236,72,153,.18) 32%,rgba(124,106,255,.18) 60%,transparent 75%)}
+body.dark-theme .dream-orb.three{background:radial-gradient(circle at 45% 35%,rgba(255,255,255,.12),rgba(34,197,94,.14) 34%,rgba(124,106,255,.18) 62%,transparent 76%)}
+body.dark-theme .aurora-ribbon{background:linear-gradient(90deg,transparent,rgba(124,106,255,.22),rgba(6,182,212,.15),rgba(236,72,153,.12),transparent)}
+body.dark-theme .aurora-ribbon.two{background:linear-gradient(90deg,transparent,rgba(34,197,94,.11),rgba(124,106,255,.18),rgba(245,158,11,.1),transparent)}
+body.dark-theme .dream-ring{border-color:rgba(165,148,255,.16);box-shadow:inset 0 0 44px rgba(124,106,255,.08)}
+body.dark-theme .surreal-bg::before{background:conic-gradient(from 120deg at 50% 45%,rgba(124,106,255,.24),rgba(6,182,212,.14),rgba(236,72,153,.15),rgba(34,197,94,.1),rgba(124,106,255,.24));opacity:.62}
+@keyframes dreamFloat{0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}33%{transform:translate3d(8vw,-4vh,0) rotate(18deg) scale(1.08)}66%{transform:translate3d(-4vw,5vh,0) rotate(-12deg) scale(.96)}}
+@keyframes auroraFlow{0%,100%{transform:translate3d(-4vw,0,0) rotate(-12deg) scaleX(.92);opacity:.45}50%{transform:translate3d(8vw,4vh,0) rotate(8deg) scaleX(1.1);opacity:.8}}
+@keyframes ringDrift{from{transform:rotate(0deg) translate3d(0,0,0)}to{transform:rotate(360deg) translate3d(2vw,1vh,0)}}
+@keyframes liquidSky{0%,100%{transform:translate3d(-2vw,-1vh,0) rotate(0deg) scale(1)}40%{transform:translate3d(4vw,3vh,0) rotate(12deg) scale(1.08)}70%{transform:translate3d(-3vw,5vh,0) rotate(-8deg) scale(.96)}}
+.app{display:flex;flex-direction:column;min-height:100vh;position:relative;z-index:1}
+.page{display:none;flex-direction:column;min-height:100vh;animation:pageIn .42s cubic-bezier(.2,.8,.2,1)}
+.page.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes floatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes softPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+@keyframes sheen{from{transform:translateX(-120%) skewX(-16deg)}to{transform:translateX(220%) skewX(-16deg)}}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.9);backdrop-filter:blur(16px);position:sticky;top:0;z-index:100}
+body.dark-theme nav{background:var(--bg)}
+.nav-brand{font-size:1rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.nav-brand span{background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.nav-links{display:flex;gap:.5rem}
+.nav-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:.4rem 1rem;border-radius:var(--radius2);font-family:inherit;font-size:.8rem;font-weight:500;cursor:pointer;transition:.2s}
+.nav-btn:hover{border-color:var(--border2);color:var(--text)}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover{background:var(--accent2)}
+.nav-user{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text2)}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff}
+@media(max-width:760px){
+nav{align-items:flex-start;gap:.75rem;flex-wrap:wrap;padding:.85rem 1rem}
+.nav-links{order:3;width:100%;overflow-x:auto;padding-bottom:.15rem}
+.nav-btn{white-space:nowrap}
+.nav-user{margin-left:auto;flex-wrap:wrap;justify-content:flex-end;max-width:58%}
+}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:.7rem 1.5rem;border-radius:var(--radius2);font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s;border:none;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;top:-40%;bottom:-40%;width:38px;background:rgba(255,255,255,.35);opacity:0;transform:translateX(-120%) skewX(-16deg)}
+.btn:hover::after{opacity:1;animation:sheen .8s ease}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--border2);background:var(--surface2)}
+.btn-ghost{background:none;color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--border2)}
+.btn-sm{padding:.45rem 1rem;font-size:.8rem}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;animation:floatUp .45s ease both}
+.card-sm{padding:1rem}
+.card:hover{border-color:var(--border2)}
+
+/* TAGS / BADGES */
+.badge{display:inline-flex;align-items:center;padding:.25rem .75rem;border-radius:var(--radius3);font-size:.75rem;font-weight:600;letter-spacing:.05em}
+.badge-easy{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.badge-medium{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.badge-hard{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.badge-purple{background:#dbeafe;color:var(--accent3);border:1px solid #93c5fd}
+body.dark-theme .badge-easy{background:#052e16;color:var(--green);border:1px solid #166534}
+body.dark-theme .badge-medium{background:#451a03;color:var(--amber);border:1px solid #92400e}
+body.dark-theme .badge-hard{background:#450a0a;color:var(--red);border:1px solid #991b1b}
+body.dark-theme .badge-purple{background:#1e1040;color:var(--accent2);border:1px solid var(--accent3)}
+
+/* FORMS */
+input,textarea,select{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius2);color:var(--text);font-family:inherit;font-size:.9rem;padding:.6rem .9rem;width:100%;outline:none;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,106,255,.1)}
+textarea{resize:vertical;min-height:120px;font-family:'JetBrains Mono',monospace;font-size:.85rem}
+label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:.4rem;letter-spacing:.05em;text-transform:uppercase}
+
+/* PROGRESS */
+.progress-bar{height:4px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent2));border-radius:4px;transition:width .5s ease}
+
+/* ==================== LOGIN PAGE ==================== */
+#page-login{background:linear-gradient(135deg,#eff6ff,#ecfdf5);align-items:center;justify-content:center;position:relative;overflow:hidden}
+body.dark-theme #page-login{background:transparent}
+body:not(.dark-theme) #page-login{background:rgba(239,246,255,.45)}
+.login-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.glow-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.22}
+body.dark-theme .glow-orb{opacity:.15}
+.glow-1{width:500px;height:500px;background:var(--accent);top:-100px;right:-100px}
+.glow-2{width:400px;height:400px;background:#3b82f6;bottom:-100px;left:-100px}
+.login-card{position:relative;z-index:2;width:100%;max-width:440px;background:rgba(255,255,255,.88);border:1px solid var(--border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(37,99,235,.12)}
+body.dark-theme .login-card{background:rgba(28,28,40,.8);box-shadow:none}
+.login-logo{text-align:center;margin-bottom:2rem}
+.login-logo h1{font-size:1.8rem;font-weight:800;letter-spacing:-.05em;margin-bottom:.25rem}
+.login-logo h1 span{background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-logo p{color:var(--text2);font-size:.85rem}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.divider span{color:var(--text3);font-size:.75rem}
+.social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:.75rem;padding:.75rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius2);color:var(--text);font-family:inherit;font-size:.9rem;font-weight:500;cursor:pointer;transition:.2s;margin-bottom:.75rem}
+.social-btn:hover{border-color:var(--border2);background:var(--surface)}
+.form-group{margin-bottom:1rem}
+.form-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.form-row a{color:var(--accent2);font-size:.8rem;text-decoration:none}
+
+/* ==================== HOME PAGE ==================== */
+#page-home{padding:0}
+.hero{padding:5rem 2rem 4rem;max-width:900px;margin:0 auto;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,106,255,.1);border:1px solid rgba(124,106,255,.3);border-radius:var(--radius3);padding:.35rem .9rem;font-size:.75rem;font-weight:600;color:var(--accent2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.1;letter-spacing:-.03em;margin-bottom:1.25rem}
+.hero h1,.hero p,.hero-actions{animation:floatUp .55s ease both}
+.hero p{animation-delay:.08s}
+.hero-actions{animation-delay:.16s}
+.hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--text2);font-size:1.05rem;line-height:1.7;max-width:560px;margin:0 auto 2.5rem}
+.hero-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.stats-row{display:flex;justify-content:center;gap:3rem;padding:2rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);margin-bottom:3rem}
+.stat{text-align:center}
+.stat-num{font-size:1.8rem;font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.75rem;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin-top:.25rem}
+.skills-section{padding:0 2rem 4rem;max-width:1000px;margin:0 auto;width:100%}
+.section-title{font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
+.section-sub{color:var(--text2);font-size:.85rem;margin-bottom:2rem}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;transition:.25s;position:relative;overflow:hidden;animation:floatUp .45s ease both}
+.skill-card:nth-child(2n){animation-delay:.04s}.skill-card:nth-child(3n){animation-delay:.08s}.skill-card:nth-child(4n){animation-delay:.12s}
+.skill-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent3),transparent);opacity:0;transition:.3s}
+.skill-card:hover{border-color:var(--accent3);transform:translateY(-5px) rotate(-.2deg);box-shadow:0 18px 38px rgba(37,99,235,.12)}
+.skill-card:hover::before{opacity:.08}
+.skill-icon{font-size:1.5rem;margin-bottom:.75rem}
+.skill-name{font-size:.95rem;font-weight:700;margin-bottom:.25rem}
+.skill-desc{font-size:.75rem;color:var(--text2);line-height:1.5}
+.skill-meta{display:flex;align-items:center;justify-content:space-between;margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.skill-level{font-size:.7rem;color:var(--text3)}
+
+/* DIFFICULTY SELECTOR */
+.diff-selector{padding:2rem;max-width:600px;margin:0 auto;width:100%}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px;animation:fadeIn .3s ease}
+.modal h2{font-size:1.3rem;font-weight:700;margin-bottom:.35rem}
+.modal p{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
+.diff-cards{display:flex;flex-direction:column;gap:.75rem}
+.diff-card{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);cursor:pointer;transition:.2s}
+.diff-card:hover{border-color:var(--border2);background:var(--surface2)}
+.diff-card.selected{border-color:var(--accent)}
+.diff-left{display:flex;align-items:center;gap.75rem;gap:.75rem}
+.diff-info h4{font-size:.9rem;font-weight:600;margin-bottom:.2rem}
+.diff-info p{font-size:.75rem;color:var(--text2)}
+.diff-time{font-size:.75rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+/* ==================== TASK PAGE ==================== */
+#page-task{background:var(--bg)}
+.task-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--bg2)}
+.task-meta{display:flex;align-items:center;gap:.75rem}
+.timer-display{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:500}
+.timer-icon{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1s infinite}
+.timer-warning{background:var(--amber)!important}
+.timer-danger{background:var(--red)!important}
+.task-body{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:1.5rem 2rem;max-width:1200px;margin:0 auto;width:100%;flex:1}
+@media(max-width:768px){.task-body{grid-template-columns:1fr}}
+.question-panel{display:flex;flex-direction:column;gap:1rem}
+.question-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;flex:1}
+.question-label{font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom.75rem;margin-bottom:.75rem}
+.question-text{font-family:'DM Serif Display',serif;font-size:1.15rem;line-height:1.6;color:var(--text)}
+.concepts-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.concepts-list{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+.concept-tag{background:rgba(124,106,255,.1);border:1px solid rgba(124,106,255,.25);border-radius:4px;padding:.2rem .6rem;font-size:.7rem;color:var(--accent2);font-family:'JetBrains Mono',monospace}
+.answer-panel{display:flex;flex-direction:column;gap:1rem}
+.answer-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;flex:1;display:flex;flex-direction:column}
+.answer-box textarea{flex:1;min-height:280px;background:#fbfdff;border-color:var(--border)}
+body.dark-theme .answer-box textarea{background:var(--bg)}
+.submit-row{display:flex;align-items:center;justify-content:space-between;margin-top:1rem}
+.char-count{font-size:.75rem;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+/* ==================== RESULT PAGE ==================== */
+#page-result{background:var(--bg);align-items:center;justify-content:flex-start;padding:2rem}
+.result-container{width:100%;max-width:680px;margin:0 auto}
+.score-hero{text-align:center;padding:2.5rem 2rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.score-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0,rgba(124,106,255,.15),transparent 60%)}
+.score-label{font-size:.75rem;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom.5rem;margin-bottom:.5rem}
+.score-num{font-family:'DM Serif Display',serif;font-size:5rem;line-height:1;font-weight:400;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+.score-grade{display:inline-flex;padding:.4rem 1.25rem;border-radius:var(--radius3);font-size:.8rem;font-weight:700;letter-spacing:.05em;margin-bottom:1rem}
+.score-grade.A{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.score-grade.B{background:rgba(124,106,255,.15);color:var(--accent2);border:1px solid rgba(124,106,255,.3)}
+.score-grade.C{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.score-grade.D{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.feedback-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+.feedback-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.feedback-type{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem}
+.feedback-type.strength{color:var(--green)}
+.feedback-type.weakness{color:var(--amber)}
+.feedback-type.improvement{color:var(--accent2)}
+.feedback-text{font-size:.9rem;color:var(--text2);line-height:1.6}
+.result-actions{display:flex;gap:.75rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:var(--text2);font-size:.9rem}
+
+/* ==================== DASHBOARD ==================== */
+#page-dashboard{padding:0}
+.dashboard-header{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border);background:rgba(238,244,248,.78);backdrop-filter:blur(12px)}
+body.dark-theme .dashboard-header{background:rgba(17,17,24,.78)}
+.dashboard-header h1{font-size:1.5rem;font-weight:800;margin-bottom:.25rem}
+.dashboard-header p{color:var(--text2);font-size:.85rem}
+.dashboard-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;padding:1.5rem 2rem;max-width:1100px;margin:0 auto;width:100%}
+@media(max-width:768px){.dashboard-grid{grid-template-columns:1fr}}
+.test-card{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;background:linear-gradient(120deg,rgba(37,99,235,.10),rgba(15,118,110,.08),rgba(217,119,6,.07));background-size:220% 220%;border:1px solid rgba(37,99,235,.22);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem;animation:floatUp .45s ease both, panelGlow 9s ease infinite}
+body.dark-theme .test-card{background:linear-gradient(120deg,rgba(124,106,255,.12),rgba(34,197,94,.06),rgba(245,158,11,.05));background-size:220% 220%}
+@keyframes panelGlow{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+.test-card h2{font-size:1rem;margin-bottom:.25rem}
+.test-card p{font-size:.82rem;color:var(--text2);line-height:1.5}
+.test-card-meta{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+.test-pill{font-size:.7rem;color:var(--accent2);border:1px solid rgba(124,106,255,.25);background:rgba(124,106,255,.08);border-radius:999px;padding:.25rem .55rem}
+.test-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:560px){.test-card{grid-template-columns:1fr}.test-form-grid{grid-template-columns:1fr}}
+.xp-balance{font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:700}
+.plan-panel,.shop-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
+.plan-panel h2,.shop-panel h2{font-size:1rem;margin-bottom:.35rem}
+.plan-panel p,.shop-panel p{font-size:.8rem;color:var(--text2);line-height:1.5}
+.plan-row{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:1rem}
+.shop-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem}
+.shop-item{display:grid;grid-template-columns:1fr auto;gap:.75rem;align-items:center;padding:.9rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2)}
+.shop-item h3{font-size:.85rem;margin-bottom:.2rem}
+.shop-item p{font-size:.73rem;color:var(--text2)}
+.shop-price{font-family:'JetBrains Mono',monospace;color:var(--green);font-size:.78rem;margin-top:.35rem}
+.owned-tag{font-size:.72rem;color:var(--green);border:1px solid rgba(34,197,94,.3);border-radius:999px;padding:.25rem .55rem;background:rgba(34,197,94,.08)}
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+@media(max-width:900px){.metric-row{grid-template-columns:repeat(2,1fr)}}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;animation:floatUp .45s ease both}
+.metric:hover{transform:translateY(-3px);border-color:var(--border2);transition:.2s}
+.metric-val{font-size:1.8rem;font-weight:800;letter-spacing:-.05em;margin-bottom:.25rem}
+.metric-val.accent{background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.metric-lbl{font-size:.7rem;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
+.attempts-list{display:flex;flex-direction:column;gap:.75rem}
+.attempt-item{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);animation:floatUp .35s ease both}
+.attempt-left{display:flex;align-items:center;gap.75rem;gap:.75rem}
+.attempt-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.attempt-info h4{font-size:.85rem;font-weight:600;margin-bottom:.15rem}
+.attempt-info p{font-size:.75rem;color:var(--text2)}
+.attempt-score{font-size:1.1rem;font-weight:700;font-family:'JetBrains Mono',monospace}
+.score-high{color:var(--green)}
+.score-mid{color:var(--amber)}
+.score-low{color:var(--red)}
+.leaderboard-list{display:flex;flex-direction:column;gap:.6rem}
+.leader-item{display:flex;align-items:center;gap.75rem;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);animation:floatUp .38s ease both}
+.leader-rank{width:28px;text-align:center;font-size:.8rem;font-weight:700;color:var(--text3);flex-shrink:0}
+.leader-rank.gold{color:#fbbf24}
+.leader-rank.silver{color:#94a3b8}
+.leader-rank.bronze{color:#92400e}
+.leader-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
+.leader-name{flex:1;font-size:.85rem;font-weight:500}
+.leader-score{font-size:.85rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent2)}
+
+/* ==================== BILLING ==================== */
+#page-billing{padding:0}
+.billing-header{padding:2rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#ffffff,#eef8f6)}
+.billing-header h1{font-size:1.5rem;font-weight:800;margin-bottom:.25rem}
+.billing-header p{color:var(--text2);font-size:.86rem}
+.billing-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:1.5rem;max-width:1050px;width:100%;margin:0 auto;padding:1.5rem 2rem}
+@media(max-width:840px){.billing-layout{grid-template-columns:1fr}}
+.billing-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:0 14px 45px rgba(23,32,42,.05)}
+.billing-panel h2{font-size:1.05rem;margin-bottom:.4rem}
+.billing-panel p{font-size:.84rem;color:var(--text2);line-height:1.55}
+.premium-summary{display:flex;flex-direction:column;gap:.8rem;margin-top:1.25rem}
+.premium-row{display:flex;align-items:center;justify-content:space-between;padding:.85rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius2);font-size:.84rem}
+.premium-price{font-size:2.2rem;font-weight:800;letter-spacing:-.04em;color:var(--accent)}
+.payment-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1.25rem 0}
+.payment-tab{border:1px solid var(--border);background:var(--surface2);color:var(--text2);border-radius:var(--radius2);padding:.7rem;font-family:inherit;font-weight:700;cursor:pointer}
+.payment-tab.active{border-color:var(--accent);background:#dbeafe;color:var(--accent3)}
+body.dark-theme .payment-tab.active{background:#1e1040;color:var(--accent2)}
+.payment-section{display:none}
+.payment-section.active{display:block}
+.billing-note{font-size:.75rem;color:var(--text3);line-height:1.5;margin-top:.85rem}
+.upi-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.75rem}
+.upi-chip{background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:.45rem;text-align:center;font-size:.75rem;color:var(--text2)}
+
+/* ==================== PROFILE ==================== */
+#page-profile{padding:0}
+.profile-hero{background:rgba(238,244,248,.78);border-bottom:1px solid var(--border);padding:2.5rem 2rem;backdrop-filter:blur(12px)}
+body.dark-theme .profile-hero{background:rgba(17,17,24,.78)}
+.profile-top{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:1.5rem}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),var(--accent));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:#fff;flex-shrink:0}
+.profile-info h1{font-size:1.5rem;font-weight:800;margin-bottom:.25rem}
+.profile-info p{color:var(--text2);font-size:.85rem;margin-bottom.75rem;margin-bottom:.75rem}
+.profile-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+.profile-body{max-width:900px;margin:1.5rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:768px){.profile-body{grid-template-columns:1fr}}
+.skill-bar-row{margin-bottom.75rem;margin-bottom:.75rem}
+.skill-bar-header{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.35rem}
+.skill-bar-header span:first-child{font-weight:500}
+.skill-bar-header span:last-child{color:var(--text3);font-family:'JetBrains Mono',monospace}
+.skill-bar{height:6px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1.25rem;font-size:.85rem;z-index:999;animation:slideIn .3s ease;display:none}
+.toast.show{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.empty h3{font-size:1rem;margin-bottom:.5rem;color:var(--text2)}
+.empty p{font-size:.85rem}
+
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.section-header h2{font-size:1rem;font-weight:700}
+
+/* AI Loading animation */
+.ai-thinking{display:flex;gap:4px;align-items:center}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bounce .9s infinite}
+.ai-dot:nth-child(2){animation-delay:.15s}
+.ai-dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.confetti-piece{position:fixed;width:8px;height:12px;border-radius:2px;z-index:1000;pointer-events:none;animation:confettiFall .9s ease-out forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(110px) rotate(220deg)}}
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+.surreal-bg{display:none}
+}
+</style>
+</head>
+<body>
+<div class="surreal-bg" aria-hidden="true">
+  <div class="aurora-ribbon"></div>
+  <div class="aurora-ribbon two"></div>
+  <div class="dream-orb one"></div>
+  <div class="dream-orb two"></div>
+  <div class="dream-orb three"></div>
+  <div class="dream-ring"></div>
+  <div class="dream-ring two"></div>
+</div>
+<div class="app" id="app">
+
+<!-- NAV -->
+<nav id="main-nav" style="display:none">
+  <div class="nav-brand">
+    <div class="logo-dot"></div>
+    <span>SkillProof</span>
+  </div>
+  <div class="nav-links" id="nav-links"></div>
+  <div class="nav-user" id="nav-user"></div>
+</nav>
+
+<!-- ==================== LOGIN ==================== -->
+<div class="page active" id="page-login">
+  <div class="login-bg">
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+  </div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:.5rem">
+        <div class="logo-dot"></div>
+        <span style="font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#a594ff,#7c6aff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">SkillProof</span>
+      </div>
+      <h1>Prove Your <span>Skills</span></h1>
+      <p>AI-powered skill challenges & real-time evaluation</p>
+    </div>
+    <button class="social-btn" onclick="loginDemo()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+    <div class="divider"><span>or</span></div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="you@example.com" value="demo@skillproof.ai">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="••••••••" value="demo123">
+    </div>
+    <div class="form-row">
+      <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;text-transform:none;font-size:.8rem;color:var(--text2);margin:0">
+        <input type="checkbox" checked style="width:auto"> Remember me
+      </label>
+      <a href="#">Forgot password?</a>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="loginDemo()">Sign In</button>
+    <p style="text-align:center;font-size:.8rem;color:var(--text3);margin-top:1.25rem">Don't have an account? <a href="#" style="color:var(--accent2)">Sign up free</a></p>
+  </div>
+</div>
+
+<!-- ==================== HOME ==================== -->
+<div class="page" id="page-home">
+  <div class="hero">
+    <div class="hero-eyebrow"><div class="dot"></div>AI-Powered Assessment Platform</div>
+    <h1>Prove what you <em>actually</em> know</h1>
+    <p>Take on intelligent, adaptive challenges generated by AI. Get evaluated on real understanding — not memorization.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="openSkillModal()">Start a Challenge</button>
+      <button class="btn btn-secondary" onclick="showPage('dashboard')">View Dashboard</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">2,400+</div><div class="stat-label">Challenges Taken</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Skill Tracks</div></div>
+    <div class="stat"><div class="stat-num">94%</div><div class="stat-label">Accuracy Rate</div></div>
+    <div class="stat"><div class="stat-num">AI-First</div><div class="stat-label">Evaluation</div></div>
+  </div>
+  <div class="skills-section">
+    <div class="section-title">Choose Your Skill Track</div>
+    <div class="section-sub">Select a domain to generate your personalized challenge</div>
+    <div class="skills-grid" id="skills-grid"></div>
+  </div>
+</div>
+
+<!-- ==================== TASK ==================== -->
+<div class="page" id="page-task">
+  <div class="task-header">
+    <div class="task-meta">
+      <span id="task-badge" class="badge badge-easy">Easy</span>
+      <span style="color:var(--text3);font-size:.8rem" id="task-skill-label">Frontend</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <div class="timer-display">
+        <div class="timer-icon" id="timer-icon"></div>
+        <span id="timer-text">02:00</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="exitTask()">Exit</button>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="question-panel">
+      <div class="question-box">
+        <div class="question-label">Challenge</div>
+        <div id="question-generating" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:1rem">
+          <div class="ai-thinking"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>
+          <p style="color:var(--text3);font-size:.85rem">Generating your challenge...</p>
+        </div>
+        <div id="question-content" style="display:none">
+          <p class="question-text" id="question-text"></p>
+        </div>
+      </div>
+      <div class="concepts-box">
+        <div style="font-size:.7rem;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase">Expected Concepts</div>
+        <div class="concepts-list" id="concepts-list"></div>
+      </div>
+      <div class="card card-sm" style="background:rgba(124,106,255,.05);border-color:rgba(124,106,255,.2)">
+        <p style="font-size:.8rem;color:var(--text2);line-height:1.6"><strong style="color:var(--accent2)">Tip:</strong> Focus on explaining your reasoning, not just the answer. AI evaluates depth of understanding.</p>
+      </div>
+    </div>
+    <div class="answer-panel">
+      <div class="answer-box">
+        <label>Your Answer</label>
+        <textarea id="answer-input" placeholder="Explain your approach, write code, or describe your solution here...&#10;&#10;The AI evaluates: reasoning quality, concept coverage, and practical application." style="flex:1;min-height:300px"></textarea>
+        <div class="submit-row">
+          <span class="char-count" id="char-count">0 chars</span>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RESULT ==================== -->
+<div class="page" id="page-result">
+  <div class="result-container">
+    <div id="result-loading" class="loading-state">
+      <div class="spinner"></div>
+      <p class="loading-text">AI is evaluating your answer...</p>
+      <p style="color:var(--text3);font-size:.8rem">Analyzing concepts, reasoning, and code quality</p>
+    </div>
+    <div id="result-content" style="display:none">
+      <div class="score-hero">
+        <div class="score-label">Your Score</div>
+        <div class="score-num" id="result-score">85</div>
+        <div><span class="score-grade" id="result-grade">B+</span></div>
+        <p style="color:var(--text2);font-size:.85rem;margin-top:.75rem" id="result-summary"></p>
+      </div>
+      <div class="feedback-grid" id="feedback-grid"></div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="openSkillModal()">New Challenge</button>
+        <button class="btn btn-secondary" onclick="showPage('dashboard')">Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Your skill proof journey</p>
+  </div>
+  <div class="dashboard-grid">
+    <div>
+      <div class="test-card">
+        <div>
+          <h2>Take Test</h2>
+          <p>Create a timed test from any programming track with up to 10 questions at your chosen difficulty.</p>
+          <div class="test-card-meta">
+            <span class="test-pill">Conceptual</span>
+            <span class="test-pill">Technical</span>
+            <span class="test-pill">Code Based</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="openTestModal()">Start Test</button>
+      </div>
+      <div class="metric-row">
+        <div class="metric"><div class="metric-val accent" id="m-total">0</div><div class="metric-lbl">Total Attempts</div></div>
+        <div class="metric"><div class="metric-val accent" id="m-avg">—</div><div class="metric-lbl">Avg Score</div></div>
+        <div class="metric"><div class="metric-val accent" id="m-top">—</div><div class="metric-lbl">Top Skill</div></div>
+        <div class="metric"><div class="metric-val accent" id="m-xp">0</div><div class="metric-lbl">XP Balance</div></div>
+      </div>
+      <div class="section-header">
+        <h2>Recent Attempts</h2>
+        <button class="btn btn-ghost btn-sm" onclick="openSkillModal()">+ New</button>
+      </div>
+      <div class="attempts-list" id="attempts-list">
+        <div class="empty"><h3>No attempts yet</h3><p>Start your first challenge to see results here</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="plan-panel">
+        <div class="section-header" style="margin-bottom:.5rem">
+          <h2>Plan</h2>
+          <span class="badge badge-purple" id="plan-badge">Free</span>
+        </div>
+        <p id="plan-copy">Free users can attempt 2 tests per day. Upgrade to Premium for unlimited daily tests.</p>
+        <div class="plan-row">
+          <span class="test-pill" id="daily-test-count">0/2 tests today</span>
+          <button class="btn btn-primary btn-sm" id="premium-btn" onclick="togglePremium()">Upgrade</button>
+        </div>
+      </div>
+      <div class="shop-panel">
+        <div class="section-header" style="margin-bottom:.5rem">
+          <h2>XP Shop</h2>
+          <span class="xp-balance" id="shop-xp">0 XP</span>
+        </div>
+        <p>Spend XP earned from challenges and tests on profile rewards.</p>
+        <div class="shop-list" id="shop-list"></div>
+      </div>
+      <div class="section-header"><h2>Leaderboard</h2></div>
+      <div class="leaderboard-list" id="leaderboard-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BILLING ==================== -->
+<div class="page" id="page-billing">
+  <div class="billing-header">
+    <h1>Upgrade to Premium</h1>
+    <p>Unlock unlimited daily tests with a simple billing flow for UPI, card, or other payment methods.</p>
+  </div>
+  <div class="billing-layout">
+    <div class="billing-panel">
+      <h2>Payment Method</h2>
+      <p>Choose how you want to pay. This prototype activates Premium locally after confirmation.</p>
+      <div class="payment-tabs">
+        <button class="payment-tab active" data-method="upi" onclick="selectPaymentMethod('upi')">UPI</button>
+        <button class="payment-tab" data-method="card" onclick="selectPaymentMethod('card')">Card</button>
+        <button class="payment-tab" data-method="other" onclick="selectPaymentMethod('other')">Other</button>
+      </div>
+
+      <div class="payment-section active" id="payment-upi">
+        <div class="form-group">
+          <label>UPI ID</label>
+          <input id="upi-id" placeholder="name@upi">
+        </div>
+        <div class="upi-actions">
+          <div class="upi-chip">Google Pay</div>
+          <div class="upi-chip">PhonePe</div>
+          <div class="upi-chip">Paytm</div>
+        </div>
+      </div>
+
+      <div class="payment-section" id="payment-card">
+        <div class="form-group">
+          <label>Card Number</label>
+          <input id="card-number" inputmode="numeric" placeholder="1234 1234 1234 1234">
+        </div>
+        <div class="test-form-grid">
+          <div class="form-group">
+            <label>Expiry</label>
+            <input id="card-expiry" placeholder="MM/YY">
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input id="card-cvv" inputmode="numeric" placeholder="123">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Name on Card</label>
+          <input id="card-name" placeholder="Full name">
+        </div>
+      </div>
+
+      <div class="payment-section" id="payment-other">
+        <div class="form-group">
+          <label>Payment Option</label>
+          <select id="other-payment">
+            <option>Net Banking</option>
+            <option>Wallet</option>
+            <option>Pay Later</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input id="billing-email" type="email" placeholder="you@example.com">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="completePremiumPayment()">Pay and Activate Premium</button>
+      <p class="billing-note">No real payment is processed in this static prototype. Use this screen as the UI flow before connecting a payment gateway.</p>
+    </div>
+
+    <div class="billing-panel">
+      <h2>Premium Plan</h2>
+      <p>Best for learners who want to practice without the daily free-plan test cap.</p>
+      <div style="margin:1rem 0">
+        <div class="premium-price">₹299<span style="font-size:.85rem;color:var(--text2);font-weight:600"> / month</span></div>
+      </div>
+      <div class="premium-summary">
+        <div class="premium-row"><span>Daily tests</span><strong>Unlimited</strong></div>
+        <div class="premium-row"><span>Questions per test</span><strong>Up to 10</strong></div>
+        <div class="premium-row"><span>XP bonus</span><strong>+25%</strong></div>
+        <div class="premium-row"><span>Billing status</span><strong id="billing-plan-status">Free</strong></div>
+      </div>
+      <div style="display:flex;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap">
+        <button class="btn btn-secondary" onclick="showPage('dashboard')">Back to Dashboard</button>
+        <button class="btn btn-ghost" onclick="showPage('home')">Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROFILE ==================== -->
+<div class="page" id="page-profile">
+  <div class="profile-hero">
+    <div class="profile-top">
+      <div class="profile-avatar" id="profile-avatar">U</div>
+      <div class="profile-info">
+        <h1 id="profile-name">User</h1>
+        <p id="profile-email">user@example.com</p>
+        <div class="profile-tags">
+          <span class="badge badge-purple">Skill Prover</span>
+          <span class="badge" style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25)" id="profile-level-badge">Beginner</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-body">
+    <div>
+      <div class="section-header"><h2>Skill Progress</h2></div>
+      <div id="skill-bars"></div>
+    </div>
+    <div>
+      <div class="section-header"><h2>Stats Overview</h2></div>
+      <div id="profile-stats"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SKILL MODAL ==================== -->
+<div class="modal-overlay" id="skill-modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2>Choose Your Challenge</h2>
+    <p>Select a skill and difficulty to begin</p>
+    <div style="margin-bottom:1.25rem">
+      <label>Skill Track</label>
+      <select id="modal-skill" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius2);color:var(--text);font-family:inherit;font-size:.9rem;padding:.6rem .9rem;width:100%;outline:none">
+      </select>
+    </div>
+    <div class="diff-cards" id="diff-cards">
+      <div class="diff-card" onclick="selectDiff('easy',this)" data-diff="easy">
+        <div class="diff-left"><span class="badge badge-easy">Easy</span><div class="diff-info" style="margin-left:.75rem"><h4>Basic Concepts</h4><p>Beginner-friendly, single concept</p></div></div>
+        <span class="diff-time">2–3 min</span>
+      </div>
+      <div class="diff-card" onclick="selectDiff('medium',this)" data-diff="medium">
+        <div class="diff-left"><span class="badge badge-medium">Medium</span><div class="diff-info" style="margin-left:.75rem"><h4>Applied Thinking</h4><p>Combines 2 concepts, requires reasoning</p></div></div>
+        <span class="diff-time">4–6 min</span>
+      </div>
+      <div class="diff-card" onclick="selectDiff('hard',this)" data-diff="hard">
+        <div class="diff-left"><span class="badge badge-hard">Hard</span><div class="diff-info" style="margin-left:.75rem"><h4>Real-World Scenario</h4><p>Conceptual + problem solving</p></div></div>
+        <span class="diff-time">7–10 min</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:1.5rem">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center" id="start-btn" onclick="startChallenge()">Generate Challenge</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TEST MODAL ==================== -->
+<div class="modal-overlay" id="test-modal" style="display:none" onclick="if(event.target===this)closeTestModal()">
+  <div class="modal">
+    <h2>Take Test</h2>
+    <p>Build a timed test with your preferred language, level, length, and duration.</p>
+    <div class="form-group">
+      <label>Programming Track</label>
+      <select id="test-skill"></select>
+    </div>
+    <div class="test-form-grid">
+      <div class="form-group">
+        <label>Difficulty</label>
+        <select id="test-difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Questions</label>
+        <input type="number" id="test-count" min="1" max="10" value="5">
+      </div>
+      <div class="form-group">
+        <label>Time Limit (minutes)</label>
+        <input type="number" id="test-minutes" min="1" max="120" value="15">
+      </div>
+      <div class="form-group">
+        <label>Question Mix</label>
+        <select id="test-type">
+          <option value="mixed">Mixed</option>
+          <option value="conceptual">Conceptual</option>
+          <option value="technical">Technical</option>
+          <option value="code">Code Based</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;margin-top:1rem">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeTestModal()">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="startTest()">Begin Test</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SKILLS=[
+  {id:'frontend',name:'Frontend Dev',icon:'⬡',desc:'HTML, CSS, JavaScript & modern web APIs',color:'#3b82f6'},
+  {id:'python',name:'Python',icon:'◈',desc:'Core Python, algorithms & data structures',color:'#f59e0b'},
+  {id:'ui-design',name:'UI Design',icon:'◐',desc:'Design systems, layouts & user experience',color:'#ec4899'},
+  {id:'dsa',name:'DSA & Logic',icon:'⬢',desc:'Data structures, algorithms & problem solving',color:'#10b981'},
+  {id:'sql',name:'SQL & Databases',icon:'◫',desc:'Queries, optimization & schema design',color:'#8b5cf6'},
+  {id:'react',name:'React & State',icon:'◎',desc:'Components, hooks, lifecycle & patterns',color:'#06b6d4'},
+  {id:'devops',name:'DevOps Concepts',icon:'◆',desc:'CI/CD, containers & deployment pipelines',color:'#f97316'},
+  {id:'system-design',name:'System Design',icon:'◇',desc:'Scalability, architecture & distributed systems',color:'#6366f1'},
+];
+
+const QUESTIONS={
+  frontend:{
+    easy:[
+      {q:"Explain the difference between `display: block`, `display: inline`, and `display: inline-block`. When would you use each?",concepts:["CSS Display","Box Model","Layout"],time:150},
+      {q:"What is event bubbling in JavaScript? How does it differ from event capturing?",concepts:["DOM Events","Propagation","JavaScript"],time:120},
+      {q:"What is the CSS Box Model? Explain how `box-sizing: border-box` changes element dimensions.",concepts:["Box Model","CSS","Sizing"],time:150},
+    ],
+    medium:[
+      {q:"You notice a React component re-renders on every parent update even though its props haven't changed. What's causing this and how would you fix it?",concepts:["React","Memoization","Performance","useCallback"],time:300},
+      {q:"Describe how you'd implement a responsive navigation that collapses into a hamburger menu on mobile without any JS framework.",concepts:["CSS Media Queries","Flexbox","Accessibility","HTML"],time:300},
+    ],
+    hard:[
+      {q:"A user reports that your web app becomes unresponsive for 2–3 seconds when they load a large dataset into a table. Walk through how you'd diagnose and fix this without removing the data.",concepts:["Browser Performance","Virtual DOM","Web Workers","Pagination","Profiling"],time:480},
+    ]
+  },
+  python:{
+    easy:[
+      {q:"What's the difference between a list and a tuple in Python? When would you choose one over the other?",concepts:["Data Types","Mutability","Python Basics"],time:120},
+      {q:"Write a function that checks if a string is a palindrome without using the built-in `reverse` or slice `[::-1]`. Explain your approach.",concepts:["String Manipulation","Two Pointers","Algorithms"],time:180},
+    ],
+    medium:[
+      {q:"Explain Python's GIL (Global Interpreter Lock). How does it affect multi-threaded programs and when would you use multiprocessing instead?",concepts:["Concurrency","GIL","Threads","Processes"],time:300},
+      {q:"Given a list of integers, find the second largest element in O(n) time without sorting. Write the function and explain why sorting would be suboptimal.",concepts:["Time Complexity","Arrays","Algorithms","Big-O"],time:300},
+    ],
+    hard:[
+      {q:"You're building a rate limiter decorator in Python that allows a function to be called at most N times per M seconds across multiple threads. Implement it and explain the concurrency challenges.",concepts:["Decorators","Threading","Rate Limiting","Locks","Time"],time:540},
+    ]
+  },
+  'ui-design':{
+    easy:[
+      {q:"What are the 4 core principles of good UI design (Contrast, Repetition, Alignment, Proximity)? Give one real-world example for each.",concepts:["CRAP Principles","Visual Design","Layout"],time:150},
+      {q:"What is the difference between UX and UI design? Can you have good UX with bad UI or vice versa?",concepts:["UX vs UI","Design Process","User Experience"],time:120},
+    ],
+    medium:[
+      {q:"Design a card component for an e-commerce product listing. Describe what information to show, the visual hierarchy, and how it adapts to dark mode.",concepts:["Visual Hierarchy","Card Design","Dark Mode","E-commerce"],time:300},
+      {q:"A form has 12 fields. Users are abandoning it 60% of the time. List 5 specific UX improvements with reasoning for each.",concepts:["Form UX","Conversion","Cognitive Load","Accessibility"],time:300},
+    ],
+    hard:[
+      {q:"You're redesigning a dashboard for non-technical executives who need to track 20+ KPIs. How do you prioritize what to show, structure the information hierarchy, and ensure it's not overwhelming?",concepts:["Information Architecture","Data Visualization","Executive UX","Progressive Disclosure"],time:480},
+    ]
+  },
+  dsa:{
+    easy:[
+      {q:"What is the time complexity of searching in a binary search tree vs a sorted array? When is each approach preferred?",concepts:["BST","Binary Search","Time Complexity","Trade-offs"],time:150},
+      {q:"Explain the difference between a stack and a queue. Give one real application for each.",concepts:["Stack","Queue","Data Structures","LIFO","FIFO"],time:120},
+    ],
+    medium:[
+      {q:"You have an unsorted array of integers. Find two numbers that sum to a target value. First describe the brute force O(n²) approach, then optimize it to O(n) using a hash map.",concepts:["Hash Maps","Two Sum","Optimization","Space-Time Trade-off"],time:300},
+      {q:"Explain recursion vs iteration using the Fibonacci sequence. What are the trade-offs in memory and performance for each approach?",concepts:["Recursion","Memoization","Dynamic Programming","Stack Frames"],time:300},
+    ],
+    hard:[
+      {q:"Design an LRU (Least Recently Used) cache that supports O(1) get and O(1) put operations. Explain the data structures you'd combine and why.",concepts:["LRU Cache","HashMap","Doubly Linked List","O(1) Complexity","System Design"],time:540},
+    ]
+  },
+  sql:{
+    easy:[
+      {q:"What is the difference between `INNER JOIN`, `LEFT JOIN`, and `FULL OUTER JOIN`? Sketch an example scenario for each.",concepts:["SQL Joins","Relational DB","Null Handling"],time:150},
+    ],
+    medium:[
+      {q:"Explain the difference between `WHERE` and `HAVING` clauses. Why can't you use aggregate functions in a `WHERE` clause?",concepts:["Aggregation","Filtering","GROUP BY","SQL Execution Order"],time:300},
+    ],
+    hard:[
+      {q:"A query on a 10M-row table takes 8 seconds. Walk through exactly how you'd identify the bottleneck and what strategies you'd use to bring it under 1 second.",concepts:["Query Optimization","Indexing","EXPLAIN","Partitioning","Query Planner"],time:480},
+    ]
+  },
+  react:{
+    easy:[
+      {q:"What is the purpose of the `useEffect` hook? Explain the difference between no dependency array, empty `[]`, and a list of dependencies.",concepts:["useEffect","React Hooks","Side Effects","Lifecycle"],time:150},
+    ],
+    medium:[
+      {q:"Explain React's reconciliation algorithm (Fiber). How does key prop affect it and what are common pitfalls of using array index as a key?",concepts:["Reconciliation","Virtual DOM","Keys","Diffing","Fiber"],time:300},
+    ],
+    hard:[
+      {q:"You're building a real-time collaborative text editor in React. Users see each other's cursors and changes with <200ms latency. Walk through the state management, WebSocket integration, and conflict resolution strategy.",concepts:["Real-time","WebSockets","OT/CRDT","State Management","Performance"],time:540},
+    ]
+  },
+  devops:{
+    easy:[
+      {q:"What is the difference between a container and a virtual machine? Why are containers preferred for microservices?",concepts:["Docker","Containers","VMs","Isolation"],time:150},
+    ],
+    medium:[
+      {q:"Explain blue-green deployment vs canary releases. When would you choose one over the other?",concepts:["Deployment Strategies","Zero Downtime","Risk Management","CI/CD"],time:300},
+    ],
+    hard:[
+      {q:"Your microservice deployment just caused a 500% spike in database connections, crashing prod. Walk through how you'd respond in real-time and what architectural changes would prevent it.",concepts:["Incident Response","Connection Pooling","Circuit Breaker","Rate Limiting","Postmortem"],time:540},
+    ]
+  },
+  'system-design':{
+    easy:[
+      {q:"What is horizontal scaling vs vertical scaling? When does horizontal scaling become necessary?",concepts:["Scalability","Load Balancing","Database","Infrastructure"],time:150},
+    ],
+    medium:[
+      {q:"Design the data model and API for a URL shortener like bit.ly. It must handle 10,000 redirects per second. What are the key architectural decisions?",concepts:["Hashing","Caching","Database Design","API Design","Scale"],time:360},
+    ],
+    hard:[
+      {q:"Design Twitter's tweet feed for a user with 50M followers. How do you ensure their tweet is visible to followers within 5 seconds? Address fanout, caching, and celebrity user edge cases.",concepts:["Fanout","Message Queues","Caching","Sharding","CDN","Celebrity Problem"],time:600},
+    ]
+  }
+};
+
+const LEADERBOARD=[
+  {name:'Arjun S.',score:9840,initials:'AS'},
+  {name:'Priya M.',score:9120,initials:'PM'},
+  {name:'Rohan K.',score:8750,initials:'RK'},
+  {name:'Neha T.',score:8340,initials:'NT'},
+  {name:'Vikram P.',score:7980,initials:'VP'},
+];
+
+const SHOP_ITEMS=[
+  {id:'badge-focus',name:'Focus Badge',desc:'Show a clean focus badge on your profile.',cost:120},
+  {id:'theme-neon',name:'Neon Profile Theme',desc:'Unlock a brighter profile accent style.',cost:250},
+  {id:'hint-pack',name:'Hint Pack',desc:'Reserve five practice hints for future question sets.',cost:180},
+  {id:'streak-freeze',name:'Streak Freeze',desc:'Protect one study streak when you miss a day.',cost:300},
+];
+
+let state={
+  user:null,
+  selectedSkill:'frontend',
+  selectedDiff:'easy',
+  currentQuestion:null,
+  timerInterval:null,
+  timeLeft:0,
+  xp:0,
+  plan:'free',
+  theme:'light',
+  testUsage:{date:'',count:0},
+  ownedItems:[],
+  paymentMethod:'upi',
+  attempts:[],
+  skillStats:{},
+  test:{
+    active:false,
+    questions:[],
+    answers:[],
+    scores:[],
+    index:0,
+    settings:null
+  }
+};
+
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(name==='dashboard')renderDashboard();
+  if(name==='profile')renderProfile();
+  if(name==='billing')renderBilling();
+  window.scrollTo(0,0);
+}
+
+function applyTheme(){
+  document.body.classList.toggle('dark-theme',state.theme==='dark');
+  const themeBtn=document.getElementById('theme-toggle');
+  if(themeBtn)themeBtn.textContent=state.theme==='dark'?'Light Mode':'Dark Mode';
+}
+
+function toggleTheme(){
+  state.theme=state.theme==='dark'?'light':'dark';
+  applyTheme();
+  renderNav();
+  showToast(state.theme==='dark'?'Dark mode enabled':'Light mode enabled');
+}
+
+function exitTask(){
+  clearInterval(state.timerInterval);
+  state.test.active=false;
+  showPage('home');
+}
+
+function todayKey(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function normalizeDailyTestUsage(){
+  const today=todayKey();
+  if(state.testUsage.date!==today)state.testUsage={date:today,count:0};
+}
+
+function dailyTestsRemaining(){
+  normalizeDailyTestUsage();
+  return Math.max(0,2-state.testUsage.count);
+}
+
+function awardXp(amount,reason){
+  const earned=state.plan==='premium'?Math.ceil(amount*1.25):amount;
+  state.xp+=earned;
+  renderNav();
+  showToast(`+${earned} XP ${reason}`);
+  celebrate();
+}
+
+function togglePremium(){
+  if(state.plan!=='premium'){
+    showPage('billing');
+    return;
+  }
+  state.plan='free';
+  renderDashboard();
+  renderNav();
+  showToast('Switched back to Free plan');
+}
+
+function selectPaymentMethod(method){
+  state.paymentMethod=method;
+  document.querySelectorAll('.payment-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.method===method));
+  document.querySelectorAll('.payment-section').forEach(section=>section.classList.remove('active'));
+  document.getElementById('payment-'+method).classList.add('active');
+}
+
+function completePremiumPayment(){
+  const method=state.paymentMethod||'upi';
+  if(method==='upi'&&!document.getElementById('upi-id').value.trim()){
+    showToast('Enter a UPI ID to continue');
+    return;
+  }
+  if(method==='card'){
+    const required=['card-number','card-expiry','card-cvv','card-name'];
+    if(required.some(id=>!document.getElementById(id).value.trim())){
+      showToast('Fill all card details to continue');
+      return;
+    }
+  }
+  if(method==='other'&&!document.getElementById('billing-email').value.trim()){
+    showToast('Enter an email for the selected payment option');
+    return;
+  }
+  state.plan='premium';
+  renderNav();
+  renderBilling();
+  showToast('Premium activated successfully');
+  celebrate();
+  showPage('dashboard');
+}
+
+function buyShopItem(itemId){
+  const item=SHOP_ITEMS.find(i=>i.id===itemId);
+  if(!item)return;
+  if(state.ownedItems.includes(itemId)){showToast('You already own this item');return;}
+  if(state.xp<item.cost){showToast(`Need ${item.cost-state.xp} more XP`);return;}
+  state.xp-=item.cost;
+  state.ownedItems.push(itemId);
+  renderDashboard();
+  renderProfile();
+  renderNav();
+  showToast(`${item.name} purchased`);
+  celebrate();
+}
+
+function celebrate(){
+  const colors=['#2563eb','#0f766e','#d97706','#16a34a','#7c6aff'];
+  for(let i=0;i<18;i++){
+    const piece=document.createElement('div');
+    piece.className='confetti-piece';
+    piece.style.left=`${50+(Math.random()*28-14)}vw`;
+    piece.style.top=`${18+Math.random()*10}vh`;
+    piece.style.background=colors[i%colors.length];
+    piece.style.animationDelay=`${Math.random()*.18}s`;
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(),1200);
+  }
+}
+
+function loginDemo(){
+  const email=document.getElementById('login-email').value||'demo@skillproof.ai';
+  const name=email.split('@')[0];
+  state.user={email,name:name.charAt(0).toUpperCase()+name.slice(1),initials:name.slice(0,2).toUpperCase()};
+  document.getElementById('main-nav').style.display='flex';
+  renderNav();
+  renderSkillGrid();
+  renderModalSkills();
+  renderTestSkills();
+  showPage('home');
+}
+
+function renderNav(){
+  const links=[
+    {label:'Home',page:'home'},
+    {label:'Dashboard',page:'dashboard'},
+    {label:'Profile',page:'profile'},
+  ];
+  document.getElementById('nav-links').innerHTML=links.map(l=>
+    `<button class="nav-btn" onclick="showPage('${l.page}')">${l.label}</button>`
+  ).join('')+`<button class="nav-btn primary" onclick="openSkillModal()">Start Challenge</button>`;
+  document.getElementById('nav-user').innerHTML=`
+    <div class="avatar">${state.user.initials}</div>
+    <span>${state.user.name}</span>
+    <span class="xp-balance">${state.xp} XP</span>
+    <span class="badge badge-purple">${state.plan==='premium'?'Premium':'Free'}</span>
+    <button class="nav-btn btn-sm" id="theme-toggle" onclick="toggleTheme()">${state.theme==='dark'?'Light Mode':'Dark Mode'}</button>
+    <button class="nav-btn btn-sm" onclick="logout()" style="margin-left:.5rem">Sign Out</button>`;
+  applyTheme();
+}
+
+function logout(){
+  state.user=null;
+  document.getElementById('main-nav').style.display='none';
+  showPage('login');
+}
+
+function renderSkillGrid(){
+  document.getElementById('skills-grid').innerHTML=SKILLS.map(s=>`
+    <div class="skill-card" onclick="quickStart('${s.id}')">
+      <div class="skill-icon" style="color:${s.color};font-size:1.8rem">${s.icon}</div>
+      <div class="skill-name">${s.name}</div>
+      <div class="skill-desc">${s.desc}</div>
+      <div class="skill-meta">
+        <span class="skill-level">${(state.skillStats[s.id]||{}).attempts||0} attempts</span>
+        <span style="font-size:.75rem;color:${s.color}">→</span>
+      </div>
+    </div>`).join('');
+}
+
+function quickStart(skillId){
+  state.selectedSkill=skillId;
+  openSkillModal();
+  document.getElementById('modal-skill').value=skillId;
+}
+
+function renderModalSkills(){
+  const sel=document.getElementById('modal-skill');
+  sel.innerHTML=SKILLS.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  sel.value=state.selectedSkill;
+}
+
+function renderTestSkills(){
+  const sel=document.getElementById('test-skill');
+  if(!sel)return;
+  sel.innerHTML=SKILLS.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  sel.value=state.selectedSkill;
+}
+
+function openSkillModal(){
+  document.getElementById('skill-modal').style.display='flex';
+  renderModalSkills();
+}
+function closeModal(){document.getElementById('skill-modal').style.display='none';}
+
+function openTestModal(){
+  if(state.plan!=='premium'&&dailyTestsRemaining()<=0){
+    showToast('Daily free test limit reached. Upgrade to Premium for unlimited tests.');
+    renderDashboard();
+    return;
+  }
+  renderTestSkills();
+  document.getElementById('test-modal').style.display='flex';
+}
+
+function closeTestModal(){document.getElementById('test-modal').style.display='none';}
+
+function selectDiff(diff,el){
+  state.selectedDiff=diff;
+  document.querySelectorAll('.diff-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+async function startChallenge(){
+  const skill=document.getElementById('modal-skill').value;
+  state.selectedSkill=skill;
+  state.test.active=false;
+  closeModal();
+  showPage('task');
+  document.getElementById('question-generating').style.display='flex';
+  document.getElementById('question-content').style.display='none';
+  document.getElementById('submit-btn').disabled=true;
+  document.getElementById('answer-input').value='';
+  document.getElementById('char-count').textContent='0 chars';
+
+  const badgeEl=document.getElementById('task-badge');
+  badgeEl.className=`badge badge-${state.selectedDiff}`;
+  badgeEl.textContent=state.selectedDiff.charAt(0).toUpperCase()+state.selectedDiff.slice(1);
+  document.getElementById('task-skill-label').textContent=SKILLS.find(s=>s.id===skill)?.name||skill;
+
+  const q=await generateQuestion(skill,state.selectedDiff);
+  state.currentQuestion=q;
+
+  setTimeout(()=>{
+    document.getElementById('question-generating').style.display='none';
+    document.getElementById('question-content').style.display='block';
+    document.getElementById('question-text').textContent=q.question;
+    document.getElementById('concepts-list').innerHTML=q.concepts.map(c=>`<span class="concept-tag">${c}</span>`).join('');
+    document.getElementById('submit-btn').disabled=false;
+    document.getElementById('submit-btn').textContent='Submit Answer';
+    startTimer(q.timer);
+  },1200);
+}
+
+function startTest(){
+  if(state.plan!=='premium'&&dailyTestsRemaining()<=0){
+    closeTestModal();
+    showToast('You have used your 2 free tests today.');
+    renderDashboard();
+    return;
+  }
+  const skill=document.getElementById('test-skill').value;
+  const difficulty=document.getElementById('test-difficulty').value;
+  const count=Math.min(10,Math.max(1,parseInt(document.getElementById('test-count').value,10)||5));
+  const minutes=Math.min(120,Math.max(1,parseInt(document.getElementById('test-minutes').value,10)||15));
+  const type=document.getElementById('test-type').value;
+  const questions=generateTestQuestions(skill,difficulty,count,type);
+
+  state.selectedSkill=skill;
+  state.selectedDiff=difficulty;
+  if(state.plan!=='premium'){
+    normalizeDailyTestUsage();
+    state.testUsage.count++;
+  }
+  state.test={active:true,questions,answers:Array(questions.length).fill(''),scores:[],index:0,settings:{skill,difficulty,count:questions.length,minutes,type}};
+  closeTestModal();
+  showPage('task');
+  loadTestQuestion();
+  startTimer(minutes*60);
+}
+
+function generateTestQuestions(skill,difficulty,count,type){
+  const bank=((QUESTIONS[skill]||QUESTIONS.frontend)[difficulty]||(QUESTIONS[skill]||QUESTIONS.frontend).easy).map((q,i)=>({
+    question:q.q,
+    concepts:q.concepts,
+    timer:q.time,
+    difficulty,
+    skill,
+    type:type==='mixed'?['conceptual','technical','code'][i%3]:type
+  }));
+  const questions=[];
+  for(let i=0;i<count;i++){
+    const base=bank[i%bank.length];
+    questions.push({...base,question:decorateTestQuestion(base.question,base.type,i+1)});
+  }
+  return questions;
+}
+
+function decorateTestQuestion(text,type,num){
+  const labels={conceptual:'Conceptual',technical:'Technical',code:'Code Based'};
+  return `Q${num}. [${labels[type]||'Mixed'}] ${text}`;
+}
+
+function loadTestQuestion(){
+  const test=state.test;
+  const q=test.questions[test.index];
+  state.currentQuestion=q;
+  document.getElementById('question-generating').style.display='none';
+  document.getElementById('question-content').style.display='block';
+  document.getElementById('answer-input').value=test.answers[test.index]||'';
+  document.getElementById('char-count').textContent=`${document.getElementById('answer-input').value.length} chars`;
+  document.getElementById('question-text').textContent=q.question;
+  document.getElementById('concepts-list').innerHTML=q.concepts.map(c=>`<span class="concept-tag">${c}</span>`).join('');
+  document.getElementById('submit-btn').disabled=false;
+  document.getElementById('submit-btn').textContent=test.index===test.questions.length-1?'Finish Test':'Next Question';
+  const badgeEl=document.getElementById('task-badge');
+  badgeEl.className=`badge badge-${test.settings.difficulty}`;
+  badgeEl.textContent=`${test.index+1}/${test.questions.length}`;
+  document.getElementById('task-skill-label').textContent=`${SKILLS.find(s=>s.id===test.settings.skill)?.name||test.settings.skill} Test`;
+}
+
+async function generateQuestion(skill,difficulty){
+  const bank=(QUESTIONS[skill]||QUESTIONS.frontend)[difficulty]||(QUESTIONS[skill]||QUESTIONS.frontend).easy;
+  const used=JSON.parse(sessionStorage.getItem('usedQ')||'[]');
+  const fresh=bank.filter((_,i)=>!used.includes(skill+difficulty+i));
+  const pool=fresh.length?fresh:bank;
+  const idx=Math.floor(Math.random()*pool.length);
+  const q=pool[idx];
+  const originalIdx=bank.indexOf(q);
+  const newUsed=[...used,skill+difficulty+originalIdx].slice(-20);
+  sessionStorage.setItem('usedQ',JSON.stringify(newUsed));
+  return {question:q.q,concepts:q.concepts,timer:q.time,difficulty,skill};
+}
+
+function startTimer(seconds){
+  clearInterval(state.timerInterval);
+  state.timeLeft=seconds;
+  updateTimerDisplay();
+  state.timerInterval=setInterval(()=>{
+    state.timeLeft--;
+    updateTimerDisplay();
+    if(state.timeLeft<=0){
+      clearInterval(state.timerInterval);
+      submitAnswer(true);
+    }
+  },1000);
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(state.timeLeft/60);
+  const s=state.timeLeft%60;
+  document.getElementById('timer-text').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const icon=document.getElementById('timer-icon');
+  if(state.timeLeft<30){icon.style.background='var(--red)'}
+  else if(state.timeLeft<60){icon.style.background='var(--amber)'}
+  else{icon.style.background='var(--green)'}
+}
+
+document.addEventListener('input',e=>{
+  if(e.target.id==='answer-input'){
+    document.getElementById('char-count').textContent=`${e.target.value.length} chars`;
+  }
+});
+
+async function submitAnswer(autoSubmit=false){
+  const answer=document.getElementById('answer-input').value.trim();
+  if(state.test.active){
+    submitTestAnswer(answer,autoSubmit);
+    return;
+  }
+  clearInterval(state.timerInterval);
+  if(!answer&&!autoSubmit){showToast('Please write your answer first');return;}
+  showPage('result');
+  document.getElementById('result-loading').style.display='flex';
+  document.getElementById('result-content').style.display='none';
+
+  try{
+    const result=await evaluateWithAI(state.currentQuestion,answer);
+    saveAttempt(state.currentQuestion,result,answer);
+    displayResult(result);
+  }catch(e){
+    const result=fallbackEvaluate(state.currentQuestion,answer);
+    saveAttempt(state.currentQuestion,result,answer);
+    displayResult(result);
+  }
+}
+
+function submitTestAnswer(answer,autoSubmit=false){
+  const test=state.test;
+  test.answers[test.index]=answer;
+  test.scores[test.index]=fallbackEvaluate(test.questions[test.index],answer);
+  if(autoSubmit||test.index===test.questions.length-1){
+    finishTest();
+    return;
+  }
+  test.index++;
+  loadTestQuestion();
+}
+
+function finishTest(){
+  clearInterval(state.timerInterval);
+  const test=state.test;
+  test.questions.forEach((q,i)=>{
+    if(!test.scores[i])test.scores[i]=fallbackEvaluate(q,test.answers[i]||'');
+  });
+  const avg=Math.round(test.scores.reduce((sum,r)=>sum+r.score,0)/test.scores.length);
+  const result={
+    score:avg,
+    summary:`Completed ${test.questions.length} ${test.settings.difficulty} questions in ${SKILLS.find(s=>s.id===test.settings.skill)?.name||test.settings.skill}.`,
+    feedback:{
+      strengths:`Best question score: ${Math.max(...test.scores.map(r=>r.score))}/100.`,
+      weaknesses:`Lowest question score: ${Math.min(...test.scores.map(r=>r.score))}/100. Review any unanswered or short responses.`,
+      improvements:"Practice explaining concepts with examples, then add code or trade-offs when the question asks for implementation detail."
+    }
+  };
+  saveTestAttempt(result);
+  state.test.active=false;
+  showPage('result');
+  document.getElementById('result-loading').style.display='none';
+  document.getElementById('result-content').style.display='block';
+  displayResult(result);
+}
+
+async function evaluateWithAI(question,answer){
+  const prompt=`You are an expert technical evaluator for a skill assessment platform.
+
+Question (${question.difficulty} level, ${question.skill}): "${question.question}"
+Expected concepts: ${question.concepts.join(', ')}
+
+User's answer: "${answer||'[No answer provided - time ran out]'}"
+
+Evaluate the answer and respond ONLY with a valid JSON object (no markdown, no explanation outside JSON):
+{
+  "score": <integer 0-100>,
+  "summary": "<one sentence overall assessment>",
+  "feedback": {
+    "strengths": "<what was done well, be specific>",
+    "weaknesses": "<what was missing or incorrect>",
+    "improvements": "<concrete next steps to improve>"
+  }
+}
+
+Scoring guide:
+- 90-100: Complete, accurate, shows deep understanding
+- 75-89: Mostly correct with minor gaps
+- 60-74: Partially correct, key concepts present but incomplete
+- 40-59: Shows some understanding but significant gaps
+- 0-39: Major misunderstanding or no answer`;
+
+  const res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  const data=await res.json();
+  const text=data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+  return JSON.parse(text);
+}
+
+function fallbackEvaluate(question,answer){
+  const len=answer.length;
+  const words=answer.toLowerCase().split(/\s+/);
+  const conceptHits=question.concepts.filter(c=>words.some(w=>w.includes(c.toLowerCase().split(' ')[0]))).length;
+  const conceptScore=Math.round((conceptHits/question.concepts.length)*40);
+  const lengthScore=Math.min(30,Math.round(len/15));
+  const baseScore=len>50?20:5;
+  const score=Math.min(95,Math.max(15,baseScore+lengthScore+conceptScore));
+  return{
+    score,
+    summary:score>75?"Good understanding demonstrated.":score>50?"Partial understanding shown.":"Answer needs more depth.",
+    feedback:{
+      strengths:conceptHits>0?`Mentioned relevant concepts: ${question.concepts.slice(0,conceptHits).join(', ')}`:"Attempted to answer the question.",
+      weaknesses:conceptHits<question.concepts.length?`Could elaborate on: ${question.concepts.slice(conceptHits).join(', ')}`:"Consider adding more detail.",
+      improvements:"Review the core concepts and practice explaining them with examples. Try writing code snippets to demonstrate understanding."
+    }
+  };
+}
+
+function saveAttempt(question,result,answer){
+  const attempt={
+    id:Date.now(),
+    skill:question.skill,
+    skillName:SKILLS.find(s=>s.id===question.skill)?.name||question.skill,
+    difficulty:question.difficulty,
+    score:result.score,
+    question:question.question,
+    answer,
+    date:new Date().toLocaleDateString(),
+    time:new Date().toLocaleTimeString()
+  };
+  state.attempts.unshift(attempt);
+  if(!state.skillStats[question.skill])state.skillStats[question.skill]={attempts:0,totalScore:0};
+  state.skillStats[question.skill].attempts++;
+  state.skillStats[question.skill].totalScore+=result.score;
+  renderSkillGrid();
+  awardXp(20+Math.round(result.score/5),'earned from challenge');
+}
+
+function saveTestAttempt(result){
+  const settings=state.test.settings;
+  const skillName=SKILLS.find(s=>s.id===settings.skill)?.name||settings.skill;
+  const attempt={
+    id:Date.now(),
+    skill:settings.skill,
+    skillName,
+    difficulty:settings.difficulty,
+    score:result.score,
+    question:`Timed test: ${settings.count} questions`,
+    answer:state.test.answers.join('\n\n---\n\n'),
+    date:new Date().toLocaleDateString(),
+    time:new Date().toLocaleTimeString(),
+    isTest:true
+  };
+  state.attempts.unshift(attempt);
+  if(!state.skillStats[settings.skill])state.skillStats[settings.skill]={attempts:0,totalScore:0};
+  state.skillStats[settings.skill].attempts++;
+  state.skillStats[settings.skill].totalScore+=result.score;
+  renderSkillGrid();
+  awardXp(50+Math.round(result.score/2),'earned from test');
+}
+
+function displayResult(result){
+  document.getElementById('result-loading').style.display='none';
+  document.getElementById('result-content').style.display='block';
+  const score=result.score;
+  document.getElementById('result-score').textContent=score;
+  document.getElementById('result-summary').textContent=result.summary||'';
+  const gradeEl=document.getElementById('result-grade');
+  let grade,cls;
+  if(score>=90){grade='A';cls='A'}
+  else if(score>=80){grade='B+';cls='A'}
+  else if(score>=70){grade='B';cls='B'}
+  else if(score>=60){grade='C+';cls='C'}
+  else if(score>=50){grade='C';cls='C'}
+  else{grade='D';cls='D'}
+  gradeEl.textContent=grade;gradeEl.className=`score-grade ${cls}`;
+  const fb=result.feedback||{};
+  document.getElementById('feedback-grid').innerHTML=[
+    {type:'strength',label:'Strengths',text:fb.strengths},
+    {type:'weakness',label:'Areas to Improve',text:fb.weaknesses},
+    {type:'improvement',label:'Next Steps',text:fb.improvements}
+  ].filter(f=>f.text).map(f=>`
+    <div class="feedback-card">
+      <div class="feedback-type ${f.type}">${f.label}</div>
+      <p class="feedback-text">${f.text}</p>
+    </div>`).join('');
+}
+
+function renderDashboard(){
+  const attempts=state.attempts;
+  normalizeDailyTestUsage();
+  document.getElementById('m-total').textContent=attempts.length;
+  document.getElementById('m-xp').textContent=state.xp;
+  if(attempts.length){
+    const avg=Math.round(attempts.reduce((a,b)=>a+b.score,0)/attempts.length);
+    document.getElementById('m-avg').textContent=avg;
+    const skills={};
+    attempts.forEach(a=>{if(!skills[a.skillName])skills[a.skillName]=0;skills[a.skillName]+=a.score;});
+    const top=Object.entries(skills).sort((a,b)=>b[1]-a[1])[0];
+    document.getElementById('m-top').textContent=top?top[0].split(' ')[0]:'—';
+  }
+  renderPlanPanel();
+  renderShop();
+  const list=document.getElementById('attempts-list');
+  if(!attempts.length){
+    list.innerHTML='<div class="empty"><h3>No attempts yet</h3><p>Start your first challenge to see results here</p></div>';
+  }else{
+    list.innerHTML=attempts.slice(0,8).map(a=>{
+      const skill=SKILLS.find(s=>s.id===a.skill);
+      const scoreClass=a.score>=75?'score-high':a.score>=50?'score-mid':'score-low';
+      return`<div class="attempt-item">
+        <div class="attempt-left">
+          <div class="attempt-icon" style="background:rgba(${hexToRgb(skill?.color||'#7c6aff')},.15);color:${skill?.color||'var(--accent2)'}">${skill?.icon||'◎'}</div>
+          <div class="attempt-info">
+            <h4>${a.isTest?'Test: ':''}${a.skillName}</h4>
+            <p>${a.difficulty} · ${a.date}</p>
+          </div>
+        </div>
+        <span class="attempt-score ${scoreClass}">${a.score}</span>
+      </div>`;
+    }).join('');
+  }
+  const lb=document.getElementById('leaderboard-list');
+  const rankClasses=['gold','silver','bronze','',''];
+  lb.innerHTML=LEADERBOARD.map((l,i)=>`
+    <div class="leader-item">
+      <div class="leader-rank ${rankClasses[i]||''}">${i+1}</div>
+      <div class="leader-avatar">${l.initials}</div>
+      <div class="leader-name">${l.name}</div>
+      <div class="leader-score">${l.score.toLocaleString()}</div>
+    </div>`).join('');
+}
+
+function renderPlanPanel(){
+  const isPremium=state.plan==='premium';
+  document.getElementById('plan-badge').textContent=isPremium?'Premium':'Free';
+  document.getElementById('plan-copy').textContent=isPremium
+    ?'Premium is active. You can attempt unlimited tests today.'
+    :'Free users can attempt 2 tests per day. Upgrade to Premium for unlimited daily tests.';
+  document.getElementById('daily-test-count').textContent=isPremium?'Unlimited tests':`${state.testUsage.count}/2 tests today`;
+  document.getElementById('premium-btn').textContent=isPremium?'Use Free':'Upgrade';
+}
+
+function renderBilling(){
+  const status=document.getElementById('billing-plan-status');
+  if(status)status.textContent=state.plan==='premium'?'Premium Active':'Free';
+  selectPaymentMethod(state.paymentMethod||'upi');
+}
+
+function renderShop(){
+  document.getElementById('shop-xp').textContent=`${state.xp} XP`;
+  document.getElementById('shop-list').innerHTML=SHOP_ITEMS.map(item=>{
+    const owned=state.ownedItems.includes(item.id);
+    return`<div class="shop-item">
+      <div>
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="shop-price">${item.cost} XP</div>
+      </div>
+      ${owned?'<span class="owned-tag">Owned</span>':`<button class="btn btn-secondary btn-sm" onclick="buyShopItem('${item.id}')">Buy</button>`}
+    </div>`;
+  }).join('');
+}
+
+function renderProfile(){
+  if(!state.user)return;
+  document.getElementById('profile-avatar').textContent=state.user.initials;
+  document.getElementById('profile-name').textContent=state.user.name;
+  document.getElementById('profile-email').textContent=state.user.email;
+  const total=state.attempts.length;
+  const lvl=total>=20?'Expert':total>=10?'Intermediate':total>=5?'Practitioner':'Beginner';
+  document.getElementById('profile-level-badge').textContent=lvl;
+
+  const bars=document.getElementById('skill-bars');
+  const skillScores=SKILLS.map(s=>{
+    const stats=state.skillStats[s.id]||{attempts:0,totalScore:0};
+    const avg=stats.attempts?Math.round(stats.totalScore/stats.attempts):0;
+    return{...s,avg,attempts:stats.attempts};
+  }).filter(s=>s.attempts>0);
+  if(!skillScores.length){
+    bars.innerHTML='<div class="empty"><h3>No data yet</h3><p>Complete challenges to see your skill breakdown</p></div>';
+  }else{
+    bars.innerHTML=skillScores.sort((a,b)=>b.avg-a.avg).map(s=>`
+      <div class="skill-bar-row">
+        <div class="skill-bar-header">
+          <span>${s.name}</span>
+          <span>${s.avg}/100 (${s.attempts} tries)</span>
+        </div>
+        <div class="skill-bar">
+          <div class="skill-bar-fill" style="width:${s.avg}%;background:${s.color}"></div>
+        </div>
+      </div>`).join('');
+  }
+
+  const statsEl=document.getElementById('profile-stats');
+  const avg=total?Math.round(state.attempts.reduce((a,b)=>a+b.score,0)/total):0;
+  const best=total?Math.max(...state.attempts.map(a=>a.score)):0;
+  statsEl.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem">
+      <div class="metric"><div class="metric-val accent">${total}</div><div class="metric-lbl">Attempts</div></div>
+      <div class="metric"><div class="metric-val accent">${avg||'—'}</div><div class="metric-lbl">Avg Score</div></div>
+      <div class="metric"><div class="metric-val accent">${best||'—'}</div><div class="metric-lbl">Best Score</div></div>
+      <div class="metric"><div class="metric-val accent">${Object.keys(state.skillStats).length}</div><div class="metric-lbl">Skills Tried</div></div>
+    </div>`;
+  const rewards=state.ownedItems.map(id=>SHOP_ITEMS.find(i=>i.id===id)?.name).filter(Boolean);
+  statsEl.innerHTML+=`
+    <div class="card card-sm">
+      <div class="section-header" style="margin-bottom:.5rem"><h2>Rewards</h2><span class="xp-balance">${state.xp} XP</span></div>
+      <p style="font-size:.8rem;color:var(--text2);line-height:1.5">${rewards.length?rewards.join(', '):'No shop items owned yet.'}</p>
+    </div>`;
+}
+
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return`${r},${g},${b}`;
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeModal();
+    closeTestModal();
+  }
+});
+
+document.getElementById('answer-input').addEventListener('input',function(){
+  document.getElementById('char-count').textContent=`${this.value.length} chars`;
+});
+
+selectDiff('easy',document.querySelector('.diff-card[data-diff="easy"]'));
+</script>
+</body>
+</html>

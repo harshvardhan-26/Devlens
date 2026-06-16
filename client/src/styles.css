@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+:root {
+  color-scheme: dark;
+  background: #06070a;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(99, 230, 190, 0.12), transparent 26%),
+    radial-gradient(circle at 85% 0%, rgba(122, 167, 255, 0.13), transparent 24%),
+    linear-gradient(180deg, #06070a 0%, #090b11 48%, #06070a 100%);
+  color: #eef3f8;
+  /* font-family: Inter, ui-sans-serif, system-ui, sans-serif; */
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 17, 24, 0.78);
+  backdrop-filter: blur(18px);
+}
+
+.score-ring {
+  background:
+    radial-gradient(circle at center, #0e1118 58%, transparent 59%),
+    conic-gradient(var(--score-color) calc(var(--score) * 1%), rgba(255,255,255,0.1) 0);
+}
