@@ -1,66 +1,142 @@
-# Devlens 🚀
+# Devlens
 
-## Dashboard
+Devlens is an AI-powered code review platform that evaluates software projects the way a senior engineer or hiring manager would.
 
-![Dashboard](README-assets/dashboard.png)
+Instead of only checking syntax or linting issues, Devlens analyzes project structure, architecture, maintainability, UI quality, and overall job readiness. Users can submit a public GitHub repository or upload project files directly and receive detailed feedback, strengths, weaknesses, improvement recommendations, and a project score.
 
-## GitHub Analysis
+### Why I Built It
+
+Most developers receive feedback only after submitting applications or during technical interviews.
+
+I wanted a tool that could provide actionable project reviews earlier in the process. Devlens was built to simulate the kind of feedback a candidate might receive from an experienced reviewer, helping developers identify weaknesses before showcasing their work publicly.
+
+---
+
+## Live Application
+
+Frontend: https://devlens-nu.vercel.app
+
+Backend API: https://devlens-api-1009.onrender.com
+
+---
+
+## What Devlens Evaluates
+
+* Code quality and maintainability
+* Project architecture and organization
+* UI and user experience quality
+* Job readiness level
+* Technical strengths
+* Areas for improvement
+* Recommended next learning steps
+
+---
+
+## Core Workflows
+
+### Analyze a GitHub Repository
+
+Paste a public GitHub repository URL and receive:
+
+* Project classification
+* AI-generated review
+* Code quality assessment
+* Architecture feedback
+* Actionable recommendations
 
 ![GitHub Analysis](README-assets/github-analysis.png)
 
-## Upload Analysis
+---
+
+### Analyze Uploaded Projects
+
+Upload source files directly for review without publishing code publicly.
+
+Ideal for:
+
+* Academic projects
+* Personal projects
+* Work-in-progress applications
+* Portfolio reviews
 
 ![Upload Analysis](README-assets/upload-analysis.png)
 
-## Profile
+---
+
+### Track Growth Over Time
+
+Devlens stores previous analyses and provides:
+
+* Projects analyzed
+* Average score
+* Best score
+* Skill insights extracted from prior reviews
 
 ![Profile](README-assets/profile.png)
 
+---
 
+## Technical Architecture
 
+Frontend
 
+* React
+* Vite
+* Tailwind CSS
+* Framer Motion
 
+Backend
 
+* Node.js
+* Express
+* MongoDB Atlas
+* JWT Authentication
 
-# Project Insight AI
+AI Layer
 
-Project Insight AI is a production-ready SaaS starter that evaluates whole software projects as products, not just snippets of code. It analyzes GitHub repositories or uploaded project files and returns code quality feedback, architecture guidance, UI/UX notes, an improvement roadmap, and a job-readiness score.
+* Google Gemini
+* Groq
 
-## Stack
+Deployment
 
-- Frontend: React, Vite, Tailwind CSS, Framer Motion, Firebase Auth
-- Backend: Node.js, Express, MongoDB, GitHub API
-- AI: OpenAI-compatible JSON response with a deterministic local fallback
+* Vercel
+* Render
 
-## Quick Start
+---
+
+## Local Development
+
+Clone the repository:
 
 ```bash
-npm run install:all
-cp server/.env.example server/.env
-cp client/.env.example client/.env
+git clone https://github.com/harshvardhan-26/Devlens.git
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run backend:
+
+```bash
+cd server
 npm run dev
 ```
 
-Client: `http://localhost:5173`
+Run frontend:
 
-API: `http://localhost:5000`
+```bash
+cd client
+npm run dev
+```
 
-## Required Environment
+---
 
-Set `MONGODB_URI` in `server/.env`.
+## Author
 
-For real AI analysis, set `AI_PROVIDER=gemini` and `GEMINI_API_KEY`, or set `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Without an AI key, the backend returns structured heuristic analysis so development still works.
+Harshvardhan
 
-For auth, add Firebase web config values to `client/.env`. Backend Firebase Admin verification is optional in local development; add service account values in `server/.env` for stricter token verification.
-
-## API
-
-- `POST /api/analyze-project` with `{ "githubUrl": "https://github.com/owner/repo" }`
-- `POST /api/analyze-upload` as multipart form-data with `files`
-- `GET /api/ai-status` checks whether the configured AI provider is responding
-- `GET /api/projects`
-- `GET /api/project/:id`
-
-## Notes
-
-The repository extraction layer filters important source files, ignores generated/vendor folders, caps per-file size, and caps total prompt size before sending code context to the AI engine.
+GitHub:
+https://github.com/harshvardhan-26
